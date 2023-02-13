@@ -299,5 +299,16 @@ RSpec.describe CSVSafe do
       end
     end
   end
+
+  describe '#generate should work with hash rows without setting @headers instance variable' do
+    subject { CSVSafe.generate(headers: true) { |csv| csv << headers; csv << payload } }
+
+    context 'with a nil field' do
+      let(:headers) { %i[a b c] }
+      let(:payload) { { b: :b, a: :a, c: :c } }
+      let (:expected) { "a,b,c\na,b,c\n" }
+      it { should eq expected}
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength
