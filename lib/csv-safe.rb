@@ -53,7 +53,8 @@ class CSVSafe < CSV
     when self.class::Row
       then row.fields.map { |field| sanitize_field(field) }
     when Hash
-      then @headers.map { |header| sanitize_field(row[header]) }
+      @headers ||= headers
+      @headers.map { |header| sanitize_field(row[header]) }
     else
       row.map { |field| sanitize_field(field) }
     end
